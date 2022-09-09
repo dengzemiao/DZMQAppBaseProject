@@ -69,7 +69,11 @@ const system = {
 
   // router 返回页面（不传返回上一页）
   back (path) {
-    router.back({ path })
+    if (path) {
+      router.back({ path })
+    } else {
+      router.back()
+    }
   },
 
 	// 同步当前配置信息

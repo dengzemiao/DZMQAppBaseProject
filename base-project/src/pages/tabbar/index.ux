@@ -9,29 +9,18 @@
     <com-page use-top="true" use-bottom="true">
       <!-- 
         block：是为了防止一次性加载全部页面
+        is：设置展示组件页面
         id：可用于获取页面，例如：this.$child('home')
         visible：页面是否可见（组件内部根元素使用 show 判断即可，如果组件内部存在 Fixed 组件，在真机上会无法通过 show 隐藏，需要单独使用 if 配合隐藏）
       -->
-      <!-- 首页 -->
-      <block if="{{ initIndexs.includes(0) }}">
-        <home-view
-          id="home"
-          visible="{{ currentIndex == 0 }}"
-        ></home-view>
-      </block>
-      <!-- 追剧 -->
-      <block if="{{ initIndexs.includes(1) }}">
-        <plays-view
-          id="plays"
-          visible="{{ currentIndex == 1 }}"
-        ></plays-view>
-      </block>
-      <!-- 我的 -->
-      <block if="{{ initIndexs.includes(2) }}">
-        <user-view
-          id="user"
-          visible="{{ currentIndex == 2 }}"
-        ></user-view>
+      <block for="{{(index, value) in items}}">
+        <block if="{{ initIndexs.includes(index) }}">
+          <component
+            is="{{ value.path }}"
+            id="{{ value.path }}"
+            visible="{{ currentIndex == index }}"
+          ></component>
+        </block>
       </block>
     </com-page>
     <!-- TabBar -->
@@ -48,24 +37,26 @@ export default {
   private: {
     // 当前选中
     currentIndex: 0,
+    // 当前Path
+    currentPath: '',
     // 已经初始化显示过的索引（防止一次性加载所有页面）
     initIndexs: [],
     // 列表
     items: [
       {
-        path: '',
+        path: 'home-view',
         text: '首页',
         icon: '/assets/images/tabbar_0.png',
         sicon: '/assets/images/tabbar_select_0.png'
       },
       {
-        path: '',
+        path: 'plays-view',
         text: '追剧',
         icon: '/assets/images/tabbar_1.png',
         sicon: '/assets/images/tabbar_select_1.png'
       },
       {
-        path: '',
+        path: 'user-view',
         text: '我的',
         icon: '/assets/images/tabbar_2.png',
         sicon: '/assets/images/tabbar_select_2.png'
@@ -76,10 +67,36 @@ export default {
   onTabBarChange (e) {
     // 记录
     this.currentIndex = e.detail.index
+    this.currentPath = e.detail.value.path
+    // initIndexs 没值，说明初始化，由页面生命周期 onShow 调用即可，不需要重复调用
+    if (this.initIndexs.length && this.currentPath) {
+      // 调用组件页面自定义 onshow() 方法
+      setTimeout(() => {
+        this.trigger(this.currentPath, 'onshow')
+      }, 100)
+    }
     // 添加到显示列表
     if (!this.initIndexs.includes(this.currentIndex)) {
       // 添加
       this.initIndexs.push(this.currentIndex)
+    }
+  },
+  // 页面生命周期（需要配合传入对应组件）
+  onShow () {
+    // 有Path
+    if (this.currentPath) {
+      // 延迟调用
+      setTimeout(() => {
+        this.trigger(this.currentPath, 'onshow')
+      }, 100)
+    }
+  },
+  // 触发事件（显示、隐藏、销毁... 由于组件没有或无法触发这些事件，可以自行在当前页面添加）
+  trigger (id, ename) {
+    if (id && ename) {
+      const el = this.$child(id)
+      const keys = Object.keys(el)
+      if (keys.includes(ename)) { el[ename]() }
     }
   }
 }

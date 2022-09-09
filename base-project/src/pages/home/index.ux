@@ -24,6 +24,9 @@ export default {
   onInit() {
     console.log('onInit 首页')
   },
+  onshow () {
+    console.log('onshow 首页')
+  },
   // 跳转案例列表
   jumpDemo () {
     $system.push({ uri: 'pages/demo' })

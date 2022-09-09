@@ -42,6 +42,7 @@ export default {
     items: {
       default: [
         {
+          // path 可用于填写路径，或存放唯一标识符等，看情况使用
           path: '',
           text: '首页',
           icon: '/assets/images/tabbar_0.png',

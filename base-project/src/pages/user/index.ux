@@ -21,6 +21,9 @@ export default {
   },
   onInit() {
     console.log('onInit 我的')
+  },
+  onshow () {
+    console.log('onshow 我的')
   }
 }
 </script>
