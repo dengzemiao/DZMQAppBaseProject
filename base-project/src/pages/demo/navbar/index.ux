@@ -46,7 +46,7 @@ export default {
     isLoading: false
   },
   onReady() {
-    // 自动下拉加载（在 onReady 需要延迟调用）
+    // 自动下拉加载（在 onReady 需要延迟调用，当调用没有效果的时候，试着使用 setTimeout() 去尝试调用）
     this.$nextTick(() => {
       this.$child('refresh').startHeaderRefresh()
     })
