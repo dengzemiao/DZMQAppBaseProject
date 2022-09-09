@@ -1,0 +1,75 @@
+<template>
+  <!-- template 里只能有一个根节点 -->
+  <div class="page-wrapper">
+    <!-- 标题 -->
+    <text class="page-title">{{ title }}</text>
+    <!-- 请求接口 -->
+    <input class="button" type="button" value="请求接口" onclick="jumpPage('pages/demo/request')" />
+    <!-- 自定义 NavBar、TabBar -->
+    <input class="button" type="button" value="自定义 NavBar、TabBar、上下刷新" onclick="jumpPage('pages/demo/navbar')" />
+  </div>
+</template>
+
+<script>
+
+export default {
+  // 页面级组件的数据模型，影响传入数据的覆盖机制：private 内定义的属性不允许被覆盖
+  private: {
+    title: '案例列表'
+  },
+  onInit() {
+    // 动态设置标题
+    // this.$page.setTitleBar({ text: '案例列表' })
+  },
+  // 跳转页面
+  jumpPage(uri) {
+    $system.push({ uri })
+  }
+}
+</script>
+
+<style>
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.page-title {
+  margin-top: 40px;
+  font-size: 40px;
+  text-align: center;
+  color: #000;
+}
+.button {
+  margin-top: 40px;
+  width: 80%;
+  height: 80px;
+  border-radius: 40px;
+  background-color: #09ba07;
+  color: #fff;
+  font-size: 30px;
+}
+</style>
+
+<!-- less 案例 -->
+<!-- <style lang="less">
+@import './../../assets/styles/style.less';
+.page-wrapper {
+  .flex-box-mixins(column, flex-start, center);
+  .title {
+    margin-top: 40px;
+    font-size: 8 * @size-factor;
+    text-align: center;
+    color: #000;
+  }
+  .button {
+    margin-top: 40px;
+    width: 90 * @size-factor;
+    height: 16 * @size-factor;
+    border-radius: @size-factor;
+    background-color: @brand;
+    color: #fff;
+    font-size: 30px;
+  }
+}
+</style> -->

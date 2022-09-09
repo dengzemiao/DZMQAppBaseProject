@@ -1,0 +1,114 @@
+<import name="com-navbar" src="../../../component/com-navbar.ux"></import>
+<import name="com-tabbar" src="../../../component/com-tabbar.ux"></import>
+<import name="com-page" src="../../../component/com-page.ux"></import>
+<import name="com-refresh" src="../../../component/com-refresh.ux"></import>
+<import name="com-loading" src="../../../component/com-loading.ux"></import>
+<template>
+  <div class="page-wrapper">
+    <!-- Page -->
+    <com-page use-top="true" use-bottom="true">
+      <!-- 刷新组件 -->
+      <com-refresh
+        id="refresh"
+        @on-header-refresh="onHeaderRefresh"
+        @on-footer-refresh="onFooterRefresh"
+      >
+        <!-- 列表 -->
+        <list class="list-view">
+          <!-- 便利数据 -->
+          <block for="{{(index, value) in dataSource}}">
+            <!-- 列表Item -->
+            <list-item class="list-item" type="data-item" onclick="touchItem">
+              <text class="list-item-title">标题{{ index + 1 }}</text>
+              <text class="list-item-desc">这是{{ index + 1 }}测试数据（点击弹出全局加载）</text>
+            </list-item>
+          </block>
+        </list>
+      </com-refresh>
+    </com-page>
+    <!-- 下面的组件需要放到页面尾部 zIndex 值不生效，根据先后顺序进行层级排列 -->
+    <!-- NavBar -->
+    <com-navbar></com-navbar>
+    <!-- TabBar -->
+    <com-tabbar default-current="1" @change="onTabBarChange"></com-tabbar>
+    <!-- Loading -->
+    <com-loading loading="{{ isLoading }}"></com-loading>
+    <!-- <com-loading if="{{ isLoading }}"></com-loading> -->
+  </div>
+</template>
+
+<script>
+export default {
+  data: {
+    // 数据源
+    dataSource: [],
+    // 加载
+    isLoading: false
+  },
+  onReady() {
+    // 自动下拉加载（在 onReady 需要延迟调用）
+    this.$nextTick(() => {
+      this.$child('refresh').startHeaderRefresh()
+    })
+  },
+  onShow() {
+    // 自动下拉加载（在 onShow 可以直接调用）
+    // this.$child('refresh').startHeaderRefresh()
+  },
+  // 获取数据
+  getData(isMore) {
+    // 模拟请求
+    setTimeout(() => {
+      // 一页数据
+      const pageSize = 10
+      // 初始化
+      if (!isMore) { this.dataSource = [] }
+      // 模拟数据
+      for (let i = 0; i < pageSize; i++) {
+        this.dataSource.push(i)
+      }
+      // 结束加载（是否还有更多数据，stopRefresh(noMore=false)）
+      this.$child('refresh').stopRefresh(this.dataSource.length >= 30)
+    }, 1000)
+  },
+  // 下拉刷新
+  onHeaderRefresh() {
+    // 加载数据
+    this.getData()
+  },
+  // 上拉刷新
+  onFooterRefresh() {
+    // 加载数据
+    this.getData(true)
+  },
+  // 展示加载
+  touchItem () {
+    this.isLoading = true
+    setTimeout(() => {
+      this.isLoading = false
+    }, 1000)
+  },
+  // TabBar 切换
+  onTabBarChange (index, item) {
+    console.log('切换TabBar', index, item)
+  }
+}
+</script>
+
+<style>
+.page-wrapper {
+}
+.list-item {
+  height: 150px;
+  border-bottom: 1px solid #dddddd;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding-left: 30px;
+}
+.list-item-title {
+  font-size: 32px;
+  color: #000000;
+}
+</style>

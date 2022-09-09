@@ -1,0 +1,79 @@
+<template>
+  <div class="classic-footer" style="background-color:{{ bgColor }}; height: {{ height }}px;">
+    <!-- <image class="loading-icon" show="{{ refreshing }}" src="./icon_loading.gif"></image> -->
+    <progress class="loading-icon" if="{{ refreshing }}" type="circular" style="color: {{ textColor }}" />
+    <text class="loading-text" style="color:{{ textColor }}">{{ refreshText }}</text>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    // 文案颜色
+    textColor: {
+      default: '#888'
+    },
+    // 高度 px
+    height: {
+      default: 150
+    },
+    // 背景颜色
+    bgColor: {
+      default: 'rgba(0, 0, 0, 0)'
+    }
+  },
+  data: {
+    // 刷新状态
+    refreshing: false,
+    // 刷新文案
+    refreshText: '上拉开始刷新',
+    // 是否还有更多数据
+    noMore: false
+  },
+  // 开始刷新
+  startRefresh () {
+    this.refreshing = true
+    this.refreshText = '正在加载···'
+  },
+  // 停止刷新
+  stopRefresh () {
+    this.refreshing = false
+    this.refreshText = '加载完成'
+  },
+  // 没有更多数据了
+  noMoreRfresh (noMore = true) {
+    this.noMore = noMore
+    this.refreshing = false
+    this.refreshText = noMore ? '- 没有更多数据了 -' : '上拉开始刷新'
+  },
+  // 拖拽中
+  move (percent) {
+    if (!this.refreshing) {
+      if (percent >= 1 && !this.refreshing) {
+        if (this.noMore) {
+            this.refreshText = '- 没有更多数据了 -'
+          } else {
+            this.refreshText = '释放即将刷新'
+          }
+      } else {
+        this.refreshText = '上拉开始刷新'
+      }
+    }
+  }
+}
+</script>
+
+<style>
+.classic-footer {
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.loading-icon {
+  width: 30px;
+  height: 30px;
+}
+.loading-text {
+  margin-left: 16px;
+}
+</style>

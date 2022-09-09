@@ -1,0 +1,116 @@
+<template>
+  <div class="com-tabbar" style="height:{{ tabBarHeight }}px; background-color:{{ bgColor }}; border-color: {{ lineColor }};">
+    <div class="tabbar-item" style="width:{{ tabBarHeight }}px;" for="{{(index, value) in items}}" tid="{{ index }}" onclick="onClickItem(index, value)">
+      <image class="item-icon" src="{{ current == index ? value.sicon : value.icon  }}"></image>
+      <text class="item-text" style="color:{{ current == index ? scolor : color }}; font-size: {{ fontSize }};" >{{ value.text }}</text>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    // 默认选中
+    defaultCurrent: {
+      default: 0
+    },
+    // 文案颜色（默认）
+    color: {
+      default: '#BFBFBF'
+    },
+    // 文案颜色（选中）
+    scolor: {
+      default: '#515153'
+    },
+    // 标题字号（默认）
+    fontSize: {
+      default: '20px'
+    },
+    // 背景颜色
+    bgColor: {
+      default: '#0faeff'
+    },
+    // 分割线颜色
+    lineColor: {
+      default: 'rgba(0, 0, 0, 0)'
+    },
+    // tabbar高度
+    tabBarHeight: {
+      default: $system.tabBarHeight
+    },
+    // items（下面是测试数据，免得直接使用空荡荡的）
+    items: {
+      default: [
+        {
+          path: '',
+          text: '首页',
+          icon: '/assets/images/tabbar_0.png',
+          sicon: '/assets/images/tabbar_select_0.png'
+        },
+        {
+          path: '',
+          text: '追剧',
+          icon: '/assets/images/tabbar_1.png',
+          sicon: '/assets/images/tabbar_select_1.png'
+        },
+        {
+          path: '',
+          text: '我的',
+          icon: '/assets/images/tabbar_2.png',
+          sicon: '/assets/images/tabbar_select_2.png'
+        }
+      ]
+    }
+  },
+  data: {
+    // 默认
+    current: 0
+  },
+  onInit() {
+    // 默认选中
+    this.current = Number(this.defaultCurrent)
+    // 初始化调用
+    this.onClickItem(this.current, this.items[this.current], true)
+  },
+  // 切换选中
+  onClickItem (index, value, force) {
+    // 防止重复点击
+    if (this.current != index || force) {
+      // 选中
+      this.current = index
+      // 切换
+      // $system.replace({ uri: value.path })
+      // 抛出
+      this.$emit('change', { index, value })
+    }
+  }
+}
+</script>
+
+<style>
+.com-tabbar {
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid rgba(0, 0, 0, 0);
+  z-index: 100;
+}
+.tabbar-item {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.item-icon {
+  height: 56px;
+  width: 56px;
+  object-fit: contain;
+}
+.item-text {
+  padding-top: 10px;
+}
+</style>

@@ -1,0 +1,51 @@
+<template>
+  <div class="com-loading">
+    <div if="{{ loading }}" class="com-loading-wrapper" style="background-color:{{ bgColor }};">
+      <progress class="loading-icon" type="circular" style="color:{{ textColor }}" />
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    // 状态
+    loading: {
+      default: false
+    },
+    // 文案颜色
+    textColor: {
+      default: '#fff'
+    },
+    // 背景颜色
+    bgColor: {
+      default: 'rgba(0, 0, 0, 0.2)'
+    }
+  },
+  data: {
+    // 系统信息（宽度 100% 在第二次显示后不生效，所以强行固定死）
+    system: $system
+  }
+}
+</script>
+
+<style>
+.com-loading {
+}
+.com-loading-wrapper {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+.loading-icon {
+  width: 40px;
+  height: 40px;
+}
+</style>

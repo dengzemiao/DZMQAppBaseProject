@@ -1,0 +1,21 @@
+<script>
+
+/* @desc: 注入方法至全局 global,以便页面调用 */
+const hook2global = global.__proto__ || global
+// 请求JS
+const $api = require('./common/apis').default
+hook2global.$api = $api
+
+export default {
+  onCreate() {
+    // 系统信息
+    const $system = require('./common/system').default
+    hook2global.$system = $system
+    $system.load()
+    // 公共JS
+    const $pub = require('./common/public').default
+    hook2global.$pub = $pub
+    $pub.load()
+  }
+}
+</script>

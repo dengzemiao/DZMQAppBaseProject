@@ -1,0 +1,116 @@
+<template>
+  <div class="com-navbar" style="height:{{ topHeight }}px; padding-top:{{ statusBarHeight }}px; background-color:{{ bgColor }};">
+    <!-- 导航条 -->
+    <div class="navbar-view" style="height:{{ navigationBarHeight }}px;">
+      <!-- 左侧按钮 -->
+      <div class="left-view" onclick="touchLeftButton">
+        <image if="{{ leftIcon && !leftText }}" src="{{ leftIcon }}" class="left-icon"></image>
+        <text style="color:{{ textColor }};">{{ leftText }}</text>
+      </div>
+      <!-- 中间内容 -->
+      <text class="center-view" style="color:{{ textColor }}; font-size:{{ titleSize }};">
+        {{ title }}
+      </text>
+      <!-- 右侧按钮 -->
+      <div class="right-view" onclick="touchRightButton">
+        <image if="{{ rightIcon && !rightText }}" src="{{ rightIcon }}" class="right-icon"></image>
+        <text style="color:{{ textColor }};">{{ rightText }}</text>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    // 左侧图标
+    leftIcon: {
+      default: '/assets/images/arrow_left_1.png'
+    },
+    // 左侧文案
+    leftText: {},
+    // 右侧图标
+    rightIcon: {},
+    // 右侧文案
+    rightText: {},
+    // 文案颜色
+    textColor: {
+      default: '#fff'
+    },
+    // 标题
+    title: {
+      default: '页面标题'
+    },
+    // 标题字号
+    titleSize: {
+      default: '35px'
+    },
+    // 背景颜色
+    bgColor: {
+      default: '#0faeff'
+    },
+    // 状态栏高度 px
+    statusBarHeight: {
+      default: $system.statusBarHeight
+    },
+    // 导航条高度 px
+    navigationBarHeight: {
+      default: $system.navigationBarHeight
+    },
+    // 顶部总高 px（状态栏 + 导航条）
+    topHeight: {
+      default: $system.topHeight
+    }
+  },
+  // 点击左侧按钮
+  touchLeftButton () {
+    // 接收 onleft="onLeftButtonClicked"
+    // this.$emit('left')
+    $system.back()
+  },
+  // 点击右侧按钮
+  touchRightButton () {
+    // 接收 onright="onRightButtonClicked"
+    this.$emit('right')
+  }
+}
+</script>
+
+<style>
+.com-navbar {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  z-index: 100;
+}
+.navbar-view {
+  width: 100%;
+  padding: 0px 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.left-view {
+  width: 80px;
+  justify-content: flex-start;
+}
+.left-icon {
+  height: 50px;
+  width: 50px;
+  object-fit: contain;
+}
+.right-view {
+  width: 80px;
+  justify-content: flex-end;
+}
+.right-icon {
+  height: 50px;
+  width: 50px;
+  object-fit: contain;
+}
+.center-view {
+  flex-grow: 1;
+  text-align: center;
+}
+</style>

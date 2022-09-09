@@ -1,0 +1,37 @@
+<template>
+  <div class="page-wrapper">
+    <!-- 按钮 -->
+    <input class="button" type="button" value="发起请求" onclick="touchRequest" />
+  </div>
+</template>
+
+<script>
+export default {
+  // 发起请求
+  touchRequest() {
+    $api.request.getUserInfo().then(res => {
+      $system.toast({ title: '请求成功，详情看控制台' })
+      console.log(res)
+    }).catch(err => {
+      $system.toast({ title: '请求失败，详情看控制台' })
+      console.log(err)
+    })
+  }
+}
+</script>
+
+<style>
+.page-wrapper {
+  display: flex;
+  justify-content: center;
+}
+.button {
+  margin-top: 40px;
+  width: 80%;
+  height: 80px;
+  border-radius: 40px;
+  background-color: #09ba07;
+  color: #fff;
+  font-size: 30px;
+}
+</style>

@@ -1,0 +1,69 @@
+<template>
+  <div class="com-page" style="{{ pageStyle }}">
+    <!-- 内容区域 -->
+    <div class="com-page-wrapper">
+      <slot></slot>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    // 使用 Fixed 布局
+    useFixed: {
+      default: true
+    },
+    // 使用顶部高度
+    useTop: {
+      default: false
+    },
+    // 顶部高度（默认：状态栏 + 导航条）
+    topHeight: {
+      default: $system.topHeight
+    },
+    // 使用底部高度
+    useBottom: {
+      default: false
+    },
+    // 底部高度（默认：tabbar高度）
+    bottomHeight: {
+      default: $system.bottomHeight
+    }
+  },
+  data: {
+    // 页面样式
+    pageStyle: ''
+  },
+  onInit() {
+    // 使用 Fiexd 布局
+    if (this.useFixed) {
+      // 基础样式
+      this.pageStyle = 'position: fixed; left: 0px; top: 0px;'
+    }
+    // 顶部间距
+    if (this.useTop) {
+      this.pageStyle += `padding-top: ${this.topHeight}px;`
+    }
+    // 底部间距
+    if (this.useBottom) {
+      this.pageStyle += `padding-bottom: ${this.bottomHeight}px;`
+    }
+  }
+}
+</script>
+
+<style>
+.com-page {
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0);
+}
+.com-page-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
+}
+</style>

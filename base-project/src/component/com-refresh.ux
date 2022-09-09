@@ -1,0 +1,188 @@
+<import name="classic-header" src="./com-refresh/classic-header.ux"></import>
+<import name="classic-footer" src="./com-refresh/classic-footer.ux"></import>
+<template>
+  <!-- 刷新视图 -->
+  <div class="com-refresh">
+    <!-- 刷新组件 -->
+    <refresh2
+      id="refresh-view"
+      gesture="{{ gesture }}"
+      animationduration="{{ animationDuration }}"
+      enablepullup="{{ openFooter }}"
+      enablepulldown="{{ openHeader }}"
+      reboundable="{{ reboundable }}"
+      @pulluprefresh="onFooterRefresh"
+      @pulldownrefresh="onHeaderRefresh"
+    >
+      <!-- 头部 -->
+      <refresh-header
+        style="height:{{ headerHeight }}px; background-color:{{ headerBackgroundColor }};"
+        class="header-view"
+        onmove="headerMove"
+      >
+        <classic-header
+          id="classicHeader"
+          textColor="{{ headerTextColor }}"
+        ></classic-header>
+      </refresh-header>
+      <!-- 列表 -->
+      <slot></slot>
+      <!-- 尾部 -->
+      <refresh-footer
+        class="footer-view"
+        onmove="footerMove"
+      >
+        <classic-footer
+          id="classicFooter"
+          height="{{ footerHeight }}"
+          bgColor="{{ footerBackgroundColor }}"
+          textColor="{{ footerTextColor }}"
+        ></classic-footer>
+      </refresh-footer>
+    </refresh2>
+  </div>
+</template>
+
+<script>
+// 参考：https://doc.quickapp.cn/widgets/refresh2.html
+export default {
+  props: {
+    // 使用头部刷新
+    openHeader: {
+      default: true
+    },
+    // 使用尾部刷新
+    openFooter: {
+      default: true
+    },
+    // 头部高度 px
+    headerHeight: {
+      default: 200
+    },
+    // 头部背景颜色
+    headerBackgroundColor: {
+      default: '#0faeff'
+    },
+    // 头部文案颜色
+    headerTextColor: {
+      default: '#fff'
+    },
+    // 尾部高度 px
+    footerHeight: {
+      default: 100
+    },
+    // 尾部背景颜色
+    footerBackgroundColor: {
+      default: 'rgba(0, 0, 0, 0)'
+    },
+    // 尾部文案颜色
+    footerTextColor: {
+      default: '#888'
+    },
+    // 尾部加载完成动画时长
+    footerDuration: {
+      default: 500
+    },
+    // 没有更多数据动画时长
+    noMoreDuration: {
+      default: 1000
+    },
+    // 头部与尾部收起刷新时的动画时长
+    animationDuration: {
+      default: 300
+    }
+  },
+  data: {
+    // 是否允许手势滑动刷新
+    gesture: true,
+    // 是否允许越界回弹
+    reboundable: false,
+    // 是否还有更多数据
+    noMore: false
+  },
+  // 下拉刷新
+  onHeaderRefresh() {
+    // 开始加载
+    this.startHeaderRefresh()
+    // 回调
+    this.$emit('onHeaderRefresh')
+  },
+  // 上拉刷新
+  onFooterRefresh() {
+    if (this.noMore) {
+      // 没有更多数据，停止更新
+      this.noMoreRfresh()
+    } else {
+      // 开始加载
+      this.startFooterRefresh()
+      // 回调
+      this.$emit('onFooterRefresh')
+    }
+  },
+  // 开始下拉刷新
+  startHeaderRefresh() {
+    this.$child('classicHeader').startRefresh()
+    this.$element('refresh-view').startPullDownRefresh()
+    this.noMoreRfresh(false, false)
+  },
+  // 开始上拉刷新
+  startFooterRefresh() {
+    this.$child('classicFooter').startRefresh()
+    this.$element('refresh-view').startPullUpRefresh()
+  },
+  // 停止刷新
+  stopRefresh (noMore) {
+    this.stopHeaderRefresh()
+    if (noMore) {
+      this.noMoreRfresh()
+    } else {
+      this.stopFooterRefresh()
+    }
+  },
+  // 停止下拉刷新
+  stopHeaderRefresh() {
+    this.$child('classicHeader').stopRefresh()
+    this.$element('refresh-view').stopPullDownRefresh()
+  },
+  // 停止上拉刷新
+  stopFooterRefresh() {
+    this.$child('classicFooter').stopRefresh()
+    setTimeout(() => {
+      this.$element('refresh-view').stopPullUpRefresh()
+    }, this.footerDuration)
+  },
+  // 没有更多数据
+  noMoreRfresh (noMore = true, isStop = true) {
+    this.noMore = noMore
+    this.$child('classicFooter').noMoreRfresh(noMore)
+    if (isStop) {
+      setTimeout(() => {
+        this.$element('refresh-view').stopPullUpRefresh()
+      }, this.noMoreDuration)
+    }
+  },
+  // 头部拖拽比例
+  headerMove(e) {
+    this.$child('classicHeader').move(e.percent)
+  },
+  // 尾部拖拽比例
+  footerMove(e) {
+    this.$child('classicFooter').move(e.percent)
+  }
+}
+</script>
+
+<style>
+.com-refresh {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+.header-view {
+  width: 100%;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+  align-self: flex-end;
+}
+</style>
