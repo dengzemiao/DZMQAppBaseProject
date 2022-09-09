@@ -1,6 +1,5 @@
 .DS_Store
 node_modules
-/sign
 /dist
 
 # local env files
