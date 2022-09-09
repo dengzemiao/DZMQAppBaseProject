@@ -4,4 +4,4 @@
 
 下载后先 `$npm install` 安装插件。
 
-该框架需运行到真机，编译器自带的模拟器显示存在问题：[快应用安卓机进行真机调试（详细流程）](https://blog.csdn.net/zz00008888/article/details/126746533)
+该框架需运行到真机，编译器自带的模拟器显示存在问题：[快应用安卓机进行真机调试（详细流程）与 Demo 效果](https://blog.csdn.net/zz00008888/article/details/126746533)
