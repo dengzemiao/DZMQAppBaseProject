@@ -68,17 +68,22 @@ export default {
     // 记录
     this.currentIndex = e.detail.index
     this.currentPath = e.detail.value.path
-    // initIndexs 没值，说明初始化，由页面生命周期 onShow 调用即可，不需要重复调用
-    if (this.initIndexs.length && this.currentPath) {
-      // 调用组件页面自定义 onshow() 方法
-      setTimeout(() => {
-        this.trigger(this.currentPath, 'onshow')
-      }, 100)
-    }
+    const count = this.initIndexs.length
     // 添加到显示列表
     if (!this.initIndexs.includes(this.currentIndex)) {
       // 添加
       this.initIndexs.push(this.currentIndex)
+      // 调用组件页面自定义 onready() 方法
+      setTimeout(() => {
+        this.trigger(this.currentPath, 'onready')
+      }, 100)
+    }
+    // initIndexs 没值，说明初始化，由页面生命周期 onShow 调用即可，不需要重复调用
+    if (count && this.currentPath) {
+      // 调用组件页面自定义 onshow() 方法
+      setTimeout(() => {
+        this.trigger(this.currentPath, 'onshow')
+      }, 100)
     }
   },
   // 页面生命周期（需要配合传入对应组件）

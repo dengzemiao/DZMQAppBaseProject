@@ -24,6 +24,9 @@ export default {
   onInit() {
     console.log('onInit 首页')
   },
+  onready () {
+    console.log('onready 首页')
+  },
   onshow () {
     console.log('onshow 首页')
   },

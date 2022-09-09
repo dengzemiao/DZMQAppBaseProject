@@ -22,6 +22,9 @@ export default {
   onInit() {
     console.log('onInit 追剧')
   },
+  onready () {
+    console.log('onready 追剧')
+  },
   onshow () {
     console.log('onshow 追剧')
   }
