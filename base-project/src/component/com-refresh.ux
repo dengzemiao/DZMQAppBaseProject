@@ -22,7 +22,7 @@
       >
         <classic-header
           id="classicHeader"
-          textColor="{{ headerTextColor }}"
+          text-color="{{ headerTextColor }}"
         ></classic-header>
       </refresh-header>
       <!-- 列表 -->
@@ -35,8 +35,8 @@
         <classic-footer
           id="classicFooter"
           height="{{ footerHeight }}"
-          bgColor="{{ footerBackgroundColor }}"
-          textColor="{{ footerTextColor }}"
+          bg-color="{{ footerBackgroundColor }}"
+          text-color="{{ footerTextColor }}"
         ></classic-footer>
       </refresh-footer>
     </refresh2>
