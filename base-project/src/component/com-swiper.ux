@@ -1,34 +1,37 @@
 <template>
-  <swiper
-    id="swiper-wrapper"
-    class="swiper-wrapper"
-    style="indicator-color:{{ indicatorcolor }}; indicator-selected-color:{{ indicatorscolor }}; indicator-size:{{ indicatorsize }}px; indicator-top:{{ indicatortop }}px; indicator-left:{{ indicatorleft }}px; indicator-right:{{ indicatorright }}px; indicator-bottom:{{ indicatorbottom }}px;"
-    index="{{ index }}"
-    autoplay="{{ autoplay }}"
-    interval="{{ interval }}"
-    indicator="{{ indicator }}"
-    loop="{{ loop }}"
-    duration="{{ duration }}"
-    vertical="{{ vertical }}"
-    previousmargin="{{ previousmargin }}"
-    nextmargin="{{ nextmargin }}"
-    enableswipe="{{ enableswipe }}"
-    @change="onChange"
-  >
-    <block if="{{ list.length }}">
-      <!-- 轮播图片 -->
-      <div class="swiper-item" for="{{list}}" tid="swiper-item" onclick="touchSwiperItem($item)">
-        <!-- 缩放类型默认 cover -->
-        <image class="swiper-item-image" src="{{ $item.url }}"></image>
-        <!-- 描述 -->
-        <text class="swiper-item-desc" show="{{ !!$item.desc }}">{{ $item.desc }}</text>
-      </div>
-    </block>
-    <block else>
-      <!-- 自定义元素 -->
-      <slot name="default"></slot>
-    </block>
-  </swiper>
+  <div class="com-swiper">
+    <!-- 轮播器 -->
+    <swiper
+      id="swiper-wrapper"
+      class="swiper-wrapper"
+      style="border-radius:{{ borderradius }}px; indicator-color:{{ indicatorcolor }}; indicator-selected-color:{{ indicatorscolor }}; indicator-size:{{ indicatorsize }}px; indicator-top:{{ indicatortop }}px; indicator-left:{{ indicatorleft }}px; indicator-right:{{ indicatorright }}px; indicator-bottom:{{ indicatorbottom }}px;"
+      index="{{ index }}"
+      autoplay="{{ autoplay }}"
+      interval="{{ interval }}"
+      indicator="{{ indicator }}"
+      loop="{{ loop }}"
+      duration="{{ duration }}"
+      vertical="{{ vertical }}"
+      previousmargin="{{ previousmargin }}"
+      nextmargin="{{ nextmargin }}"
+      enableswipe="{{ enableswipe }}"
+      @change="onChange"
+    >
+      <block if="{{ list.length }}">
+        <!-- 轮播图片 -->
+        <div class="swiper-item" style="border-radius:{{ borderradius }}px;" for="{{list}}" tid="swiper-item" onclick="touchSwiperItem($item)">
+          <!-- 缩放类型默认 cover -->
+          <image class="swiper-item-image" style="border-radius:{{ borderradius }}px;" src="{{ $item.url }}"></image>
+          <!-- 描述 -->
+          <text class="swiper-item-desc" style="border-bottom-left-radius:{{ borderradius }}px; border-bottom-right-radius:{{ borderradius }}px;" show="{{ !!$item.desc }}">{{ $item.desc }}</text>
+        </div>
+      </block>
+      <block else>
+        <!-- 自定义元素 -->
+        <slot name="default"></slot>
+      </block>
+    </swiper>
+  </div>
 </template>
 
 <script>
@@ -108,7 +111,11 @@ export default {
     indicatortop: {},
     indicatorleft: {},
     indicatorright: {},
-    indicatorbottom: {}
+    indicatorbottom: {},
+    // 圆角（在非自定义组件的情况下生效，因为快应用圆角需要每层元素都单独加）
+    borderradius: {
+      default: 0
+    }
     // .... 如果还有需要的可以自行按照官网参数添加
   },
   // 当前显示的组件索引变化时触发
@@ -127,19 +134,32 @@ export default {
 </script>
 
 <style>
-.swiper-wrapper {
+.com-swiper {
   width: 100%;
   height: 300px;
+}
+.swiper-wrapper {
+  width: 100%;
+  height: 100%;
   background-color: #D6D6CF;
+  border-width: 0px;
+  border-color: rgba(0, 0, 0, 0);
+  border-radius: 0px;
 }
 .swiper-item {
   position: relative;
   width: 100%;
   height: 100%;
+  border-width: 0px;
+  border-color: rgba(0, 0, 0, 0);
+  border-radius: 0px;
 }
 .swiper-item-image {
   width: 100%;
   height: 100%;
+  border-width: 0px;
+  border-color: rgba(0, 0, 0, 0);
+  border-radius: 0px;
 }
 .swiper-item-desc {
   position: absolute;
@@ -149,9 +169,13 @@ export default {
   height: 64px;
   padding: 0 16px;
   color: #fff;
-  font-size: 34px;
+  font-size: 28px;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%);
   lines: 1;
   text-overflow: ellipsis;
+  border-width: 0px;
+  border-color: rgba(0, 0, 0, 0);
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 </style>
