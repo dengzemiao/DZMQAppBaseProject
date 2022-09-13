@@ -1,0 +1,165 @@
+<template>
+  <swiper
+    id="swiper-wrapper"
+    class="swiper-wrapper"
+    style="height: {{ height === -1 ? 'auto' : height + 'px' }}"
+    index="{{ index }}"
+    autoplay="{{ autoplay }}"
+    interval="{{ interval }}"
+    indicator="{{ indicator }}"
+    loop="{{ loop }}"
+    duration="{{ duration }}"
+    vertical="{{ vertical }}"
+    previousmargin="{{ previousmargin }}"
+    nextmargin="{{ nextmargin }}"
+    enableswipe="{{ enableswipe }}"
+    indicator-color="{{ indicatorcolor }}"
+    indicator-selected-color="{{ indicatorscolor }}"
+    indicator-size="{{ indicatorsize }}"
+    indicator-top="{{ indicatortop }}"
+    indicator-left="{{ indicatorleft }}"
+    indicator-right="{{ indicatorright }}"
+    indicator-bottom="{{ indicatorbottom }}"
+    @change="onChange"
+  >
+    <block if="{{ list.length }}">
+      <!-- 轮播图片 -->
+      <div class="swiper-item" for="{{list}}" onclick="touchSwiperItem($item)">
+        <!-- 缩放类型默认 cover -->
+        <image class="swiper-item-image" src="{{ $item.url }}"></image>
+        <!-- 描述 -->
+        <text class="swiper-item-desc" show="{{ !!$item.desc }}">{{ $item.desc }}</text>
+      </div>
+    </block>
+    <block else>
+      <!-- 自定义元素 -->
+      <slot></slot>
+    </block>
+  </swiper>
+</template>
+
+<script>
+// 参考：https://doc.quickapp.cn/widgets/swiper.html
+export default {
+  props: {
+    // 轮播图展示列表数据格式（可选，为空则走 slot 外部可自行设置轮播元素）
+    list: {
+      default: [
+        // {
+        //   // 图片地址（必带）
+        //   url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.jj20.com%2Fup%2Fallimg%2F1114%2F0FR0104017%2F200FQ04017-6-1200.jpg&refer=http%3A%2F%2Fimg.jj20.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665633083&t=c43a6adf6e222f502926a0ffb20e7afe',
+        //   // 图片描述（可选）
+        //   desc: '描述1'
+        //   // 其他参数可自行带上，点击时会单个数据都返回
+        // },
+        // {
+        //   url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.jj20.com%2Fup%2Fallimg%2F1115%2F092621094155%2F210926094155-9-1200.jpg&refer=http%3A%2F%2Fimg.jj20.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665633083&t=56e26707f06bdc559b29f9e1614f926e'
+        // },
+        // {
+        //   url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F201902%2F01%2F20190201040724_joalo.thumb.1000_0.jpeg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665633083&t=8093f0c1f4015b61778749dd18186974',
+        //   desc: '描述3'
+        // }
+      ]
+    },
+    // 轮播图高度（-1：auto 自适应）
+    height: {
+      default: 300
+    },
+    // 当前显示的子组件索引
+    index: {
+      default: 0
+    },
+    // 渲染完成后，是否自动进行播放
+    autoplay: {
+      default: false
+    },
+    // 自动播放时的时间间隔，单位毫秒(ms)
+    interval: {
+      default: 3000
+    },
+    // 是否启用 indicator (下面有样式属性)
+    indicator: {
+      default: true
+    },
+    // 是否开启循环模式
+    loop: {
+      default: true
+    },
+    // 滑动动画时长(默认根据手指的速度动态计算)
+    duration: {},
+    // 滑动方向是否为纵向，纵向时 indicator 也为纵向
+    vertical: {
+      default: false
+    },
+    // 前边距，可用于露出前一项的一小部分，支持单位：px 和 %
+    previousmargin: {
+      default: 0
+    },
+    // 后边距，可用于露出后一项的一小部分，支持单位：px 和 %
+    nextmargin: {
+      default: 0
+    },
+    // 是否支持手势滑动 swiper
+    enableswipe: {
+      default: true
+    },
+    // indicator 填充颜色
+    indicatorcolor: {
+      default: 'rgba(0, 0, 0, 0.5)'
+    },
+    // indicator 选中时的颜色
+    indicatorscolor: {
+      default: 'rgb(51, 180, 255)'
+    },
+    // indicator 组件的直径大小
+    indicatorsize: {
+      default: '20'
+    },
+    // indicator相对于swiper的位置
+    indicatortop: {},
+    indicatorleft: {},
+    indicatorright: {},
+    indicatorbottom: {}
+    // .... 如果还有需要的可以自行按照官网参数添加
+  },
+  // 当前显示的组件索引变化时触发
+  onChange (e) {
+    this.$emit('change', e)
+  },
+  // 滚动到 index 位置
+  swipeTo (index) {
+    this.$element('swiper-wrapper').swipeTo(index)
+  },
+  // 点击轮播图片
+  touchSwiperItem (item) {
+    this.$emit('clicked', item)
+  }
+}
+</script>
+
+<style>
+.swiper-wrapper {
+  background-color: #D6D6CF;
+}
+.swiper-item {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.swiper-item-image {
+  width: 100%;
+  height: 100%;
+}
+.swiper-item-desc {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 64px;
+  padding: 0 16px;
+  color: #fff;
+  lines: 1;
+  text-overflow: ellipsis;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%);
+}
+</style>

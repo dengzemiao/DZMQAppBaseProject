@@ -1,6 +1,6 @@
 # DZMQAppBaseProject
 
-快应用自用框架，常用UI组件封装，在系统自带的基础上优化封装，Tabbar、NabBar、Loading、Refresh、Request、System ....
+快应用自用框架，常用UI组件封装，在系统自带的基础上优化封装，Tabbar、NabBar、Loading、Refresh、Swiper、Request、System ....
 
 下载后先 `$npm install` 安装插件。
 

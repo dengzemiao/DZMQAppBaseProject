@@ -105,7 +105,7 @@ export default {
     // 开始加载
     this.startHeaderRefresh()
     // 回调
-    this.$emit('onHeaderRefresh')
+    this.$emit('headerRefresh')
   },
   // 上拉刷新
   onFooterRefresh() {
@@ -116,7 +116,7 @@ export default {
       // 开始加载
       this.startFooterRefresh()
       // 回调
-      this.$emit('onFooterRefresh')
+      this.$emit('footerRefresh')
     }
   },
   // 开始下拉刷新

@@ -1,15 +1,29 @@
 <import name="com-navbar" src="../../component/com-navbar.ux"></import>
 <import name="com-refresh" src="../../component/com-refresh.ux"></import>
+<import name="com-swiper" src="../../component/com-swiper.ux"></import>
+ 
 <template>
   <div class="page-wrapper" show="{{ visible }}">
     <!-- 刷新组件 -->
       <com-refresh
         id="refresh"
-        @on-header-refresh="onHeaderRefresh"
-        @on-footer-refresh="onFooterRefresh"
+        @header-refresh="onHeaderRefresh"
+        @footer-refresh="onFooterRefresh"
       >
         <!-- 列表 -->
         <list class="list-view">
+          <!-- 轮播图 -->
+          <list-item type="swiper-item">
+            <com-swiper list="{{ carouselList }}" @clicked="onClicked"></com-swiper>
+          </list-item>
+          <!-- 轮播（自定义使用） -->
+          <list-item type="swiper-item">
+            <com-swiper>
+              <text class="swiper-item-title">A</text>
+              <text class="swiper-item-title">B</text>
+              <text class="swiper-item-title">C</text>
+            </com-swiper>
+          </list-item>
           <!-- 便利数据 -->
           <block for="{{(index, value) in dataSource}}">
             <!-- 列表Item -->
@@ -38,7 +52,24 @@ export default {
   },
   data: {
     // 数据源
-    dataSource: []
+    dataSource: [],
+    // 轮播数据
+    carouselList: [
+      {
+        // 图片地址（必带）
+        url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.jj20.com%2Fup%2Fallimg%2F1114%2F0FR0104017%2F200FQ04017-6-1200.jpg&refer=http%3A%2F%2Fimg.jj20.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665633083&t=c43a6adf6e222f502926a0ffb20e7afe',
+        // 图片描述（可选）
+        desc: '描述1'
+        // 其他参数可自行带上，点击时会单个数据都返回
+      },
+      {
+        url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.jj20.com%2Fup%2Fallimg%2F1115%2F092621094155%2F210926094155-9-1200.jpg&refer=http%3A%2F%2Fimg.jj20.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665633083&t=56e26707f06bdc559b29f9e1614f926e'
+      },
+      {
+        url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F201902%2F01%2F20190201040724_joalo.thumb.1000_0.jpeg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665633083&t=8093f0c1f4015b61778749dd18186974',
+        desc: '描述3'
+      }
+    ]
   },
   onInit() {
     console.log('onInit 追剧')
@@ -52,6 +83,10 @@ export default {
   },
   onshow () {
     console.log('onshow 追剧')
+  },
+  // 轮播图被点击
+  onClicked (e) {
+    console.log('onClicked', e, e.detail)
   },
   // 获取数据
   getData(isMore) {
@@ -102,5 +137,8 @@ export default {
 .list-item-title {
   font-size: 32px;
   color: #000000;
+}
+.swiper-item-title {
+  text-align: center;
 }
 </style>
