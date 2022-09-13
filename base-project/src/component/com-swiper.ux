@@ -2,7 +2,7 @@
   <swiper
     id="swiper-wrapper"
     class="swiper-wrapper"
-    style="indicator-color:{{ indicatorcolor }}; indicator-size:{{ indicatorsize }}px; indicator-top:{{ indicatortop }}px; indicator-left:{{ indicatorleft }}px; indicator-right:{{ indicatorright }}px; indicator-bottom:{{ indicatorbottom }}px;"
+    style="indicator-color:{{ indicatorcolor }}; indicator-selected-color:{{ indicatorscolor }}; indicator-size:{{ indicatorsize }}px; indicator-top:{{ indicatortop }}px; indicator-left:{{ indicatorleft }}px; indicator-right:{{ indicatorright }}px; indicator-bottom:{{ indicatorbottom }}px;"
     index="{{ index }}"
     autoplay="{{ autoplay }}"
     interval="{{ interval }}"
@@ -17,7 +17,7 @@
   >
     <block if="{{ list.length }}">
       <!-- 轮播图片 -->
-      <div class="swiper-item" for="{{list}}" onclick="touchSwiperItem($item)">
+      <div class="swiper-item" for="{{list}}" tid="swiper-item" onclick="touchSwiperItem($item)">
         <!-- 缩放类型默认 cover -->
         <image class="swiper-item-image" src="{{ $item.url }}"></image>
         <!-- 描述 -->
@@ -102,7 +102,7 @@ export default {
     },
     // indicator 组件的直径大小
     indicatorsize: {
-      default: 20
+      default: 12
     },
     // indicator相对于swiper的位置
     indicatortop: {},
