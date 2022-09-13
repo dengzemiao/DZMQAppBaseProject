@@ -139,6 +139,7 @@ export default {
 
 <style>
 .swiper-wrapper {
+  width: 100%;
   background-color: #D6D6CF;
 }
 .swiper-item {
