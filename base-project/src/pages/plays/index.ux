@@ -1,8 +1,25 @@
 <import name="com-navbar" src="../../component/com-navbar.ux"></import>
+<import name="com-refresh" src="../../component/com-refresh.ux"></import>
 <template>
   <div class="page-wrapper" show="{{ visible }}">
-    <!-- 标题 -->
-    <text class="page-title">追剧</text>
+    <!-- 刷新组件 -->
+      <com-refresh
+        id="refresh"
+        @on-header-refresh="onHeaderRefresh"
+        @on-footer-refresh="onFooterRefresh"
+      >
+        <!-- 列表 -->
+        <list class="list-view">
+          <!-- 便利数据 -->
+          <block for="{{(index, value) in dataSource}}">
+            <!-- 列表Item -->
+            <list-item class="list-item" type="data-item" onclick="touchItem">
+              <text class="list-item-title">标题{{ index + 1 }}</text>
+              <text class="list-item-desc">这是{{ index + 1 }}测试数据</text>
+            </list-item>
+          </block>
+        </list>
+      </com-refresh>
     <!-- Fixed 布局在真机上无法通过 show 隐藏 -->
     <block if="{{ visible }}">
       <!-- NavBar -->
@@ -19,14 +36,48 @@ export default {
       default: false
     }
   },
+  data: {
+    // 数据源
+    dataSource: []
+  },
   onInit() {
     console.log('onInit 追剧')
   },
   onready () {
     console.log('onready 追剧')
+    // 自动下拉加载（在 onready 需要延迟调用）
+    setTimeout(() => {
+      this.$child('refresh').startHeaderRefresh()
+    }, 100)
   },
   onshow () {
     console.log('onshow 追剧')
+  },
+  // 获取数据
+  getData(isMore) {
+    // 模拟请求
+    setTimeout(() => {
+      // 一页数据
+      const pageSize = 10
+      // 初始化
+      if (!isMore) { this.dataSource = [] }
+      // 模拟数据
+      for (let i = 0; i < pageSize; i++) {
+        this.dataSource.push(i)
+      }
+      // 结束加载（是否还有更多数据，stopRefresh(noMore=false)）
+      this.$child('refresh').stopRefresh(this.dataSource.length >= 30)
+    }, 1000)
+  },
+  // 下拉刷新
+  onHeaderRefresh() {
+    // 加载数据
+    this.getData()
+  },
+  // 上拉刷新
+  onFooterRefresh() {
+    // 加载数据
+    this.getData(true)
   }
 }
 </script>
@@ -38,6 +89,18 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.list-item {
+  height: 150px;
+  border-bottom: 1px solid #dddddd;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
+  padding-left: 30px;
+}
+.list-item-title {
+  font-size: 32px;
+  color: #000000;
 }
 </style>
