@@ -23,9 +23,9 @@
 <script>
 export default {
   props: {
-    // 左侧图标
+    // 左侧图标（箭头图片可上 iconfont 上搜索 "左箭头" 下个喜欢的）
     leftIcon: {
-      default: '/assets/images/arrow_left_1.png'
+      default: '/component/com-navbar/arrow-white.svg'
     },
     // 左侧文案
     leftText: {},

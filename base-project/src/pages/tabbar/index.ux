@@ -46,20 +46,20 @@ export default {
       {
         path: 'home-view',
         text: '首页',
-        icon: '/assets/images/tabbar_0.png',
-        sicon: '/assets/images/tabbar_select_0.png'
+        icon: '/assets/images/tabbar-0.png',
+        sicon: '/assets/images/tabbar-select-0.png'
       },
       {
         path: 'plays-view',
         text: '追剧',
-        icon: '/assets/images/tabbar_1.png',
-        sicon: '/assets/images/tabbar_select_1.png'
+        icon: '/assets/images/tabbar-1.png',
+        sicon: '/assets/images/tabbar-select-1.png'
       },
       {
         path: 'user-view',
         text: '我的',
-        icon: '/assets/images/tabbar_2.png',
-        sicon: '/assets/images/tabbar_select_2.png'
+        icon: '/assets/images/tabbar-2.png',
+        sicon: '/assets/images/tabbar-select-2.png'
       }
     ]
   },

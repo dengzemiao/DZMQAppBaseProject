@@ -3,7 +3,8 @@
     <!-- icon -->
     <stack class="loading-icon">
       <progress if="{{ refreshing }}" type="circular" style="color: {{ textColor }}" />
-      <image elif="{{ !refreshing }}" src="./icon_arrow_white.png" class="{{ arrowAnimation }}"></image>
+      <!-- 箭头图片可上 iconfont 上搜索 "下箭头" 下个喜欢的 -->
+      <image elif="{{ !refreshing }}" src="./arrow-white.svg" class="{{ arrowAnimation }}"></image>
     </stack>
     <!-- 文案 -->
     <text class="loading-text" style="color: {{ textColor }}">{{ refreshText }}</text>
