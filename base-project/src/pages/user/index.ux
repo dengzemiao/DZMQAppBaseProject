@@ -1,6 +1,6 @@
 <import name="com-navbar" src="../../component/com-navbar.ux"></import>
 <template>
-  <div class="page-wrapper" show="{{ visible }}">
+  <div class="page-wrapper">
     <!-- 标题 -->
     <text class="page-title">我的</text>
     <!-- Fixed 布局在真机上无法通过 show 隐藏 -->

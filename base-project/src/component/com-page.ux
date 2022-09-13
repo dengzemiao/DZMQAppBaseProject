@@ -2,7 +2,7 @@
   <div class="com-page" style="{{ pageStyle }}">
     <!-- 内容区域 -->
     <div class="com-page-wrapper">
-      <slot></slot>
+      <slot name="default"></slot>
     </div>
   </div>
 </template>

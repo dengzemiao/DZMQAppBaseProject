@@ -1,9 +1,8 @@
 <import name="com-navbar" src="../../component/com-navbar.ux"></import>
 <import name="com-refresh" src="../../component/com-refresh.ux"></import>
 <import name="com-swiper" src="../../component/com-swiper.ux"></import>
- 
 <template>
-  <div class="page-wrapper" show="{{ visible }}">
+  <div class="page-wrapper">
     <!-- 刷新组件 -->
       <com-refresh
         id="refresh"

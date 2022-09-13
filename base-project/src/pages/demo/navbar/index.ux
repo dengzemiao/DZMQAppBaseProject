@@ -130,8 +130,6 @@ export default {
 </script>
 
 <style>
-.page-wrapper {
-}
 .list-item {
   height: 150px;
   border-bottom: 1px solid #dddddd;

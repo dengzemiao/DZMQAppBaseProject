@@ -97,7 +97,6 @@ export default {
   display: flex;
   justify-content: space-around;
   border-top: 1px solid rgba(0, 0, 0, 0);
-  z-index: 100;
 }
 .tabbar-item {
   height: 100%;

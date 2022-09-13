@@ -26,7 +26,7 @@
         ></classic-header>
       </refresh-header>
       <!-- 列表 -->
-      <slot></slot>
+      <slot name="default"></slot>
       <!-- 尾部 -->
       <refresh-footer
         class="footer-view"

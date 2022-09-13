@@ -18,6 +18,7 @@
           <component
             is="{{ value.path }}"
             id="{{ value.path }}"
+            show="{{ currentIndex == index }}"
             visible="{{ currentIndex == index }}"
           ></component>
         </block>
