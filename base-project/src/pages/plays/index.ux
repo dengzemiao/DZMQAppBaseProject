@@ -12,11 +12,11 @@
       >
         <!-- 列表 -->
         <list class="list-view">
-          <!-- 轮播图 -->
+          <!-- 轮播图（如果写上 class 则内部高度失效，自行设置宽高背景） -->
           <list-item type="swiper-item">
             <com-swiper list="{{ carouselList }}" @clicked="onClicked"></com-swiper>
           </list-item>
-          <!-- 轮播（自定义使用） -->
+          <!-- 轮播（自定义使用）（如果写上 class 则内部高度失效，自行设置宽高背景） -->
           <list-item type="swiper-item">
             <com-swiper>
               <text class="swiper-item-title">A</text>
