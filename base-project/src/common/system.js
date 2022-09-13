@@ -48,6 +48,15 @@ const system = {
     storage.get({ key, default: def, success, fail, ...obj })
   },
 
+  // storage 清空
+  clear (success, fail) {
+    if (success || fail) {
+      storage.clear({ success, fail })
+    } else {
+      storage.clear()
+    }
+  },
+
   // prompt 显示消息
   toast ({ title, duration=0 }) {
     if (!title) return
