@@ -133,11 +133,7 @@ export default {
   // 停止刷新
   stopRefresh (noMore) {
     this.stopHeaderRefresh()
-    if (noMore) {
-      this.noMoreRfresh()
-    } else {
-      this.stopFooterRefresh()
-    }
+    this.stopFooterRefresh(noMore)
   },
   // 停止下拉刷新
   stopHeaderRefresh() {
@@ -145,11 +141,15 @@ export default {
     this.$element('refresh-view').stopPullDownRefresh()
   },
   // 停止上拉刷新
-  stopFooterRefresh() {
-    this.$child('classicFooter').stopRefresh()
-    setTimeout(() => {
-      this.$element('refresh-view').stopPullUpRefresh()
-    }, this.footerDuration)
+  stopFooterRefresh(noMore) {
+    if (noMore) {
+      this.noMoreRfresh()
+    } else {
+      this.$child('classicFooter').stopRefresh()
+      setTimeout(() => {
+        this.$element('refresh-view').stopPullUpRefresh()
+      }, this.footerDuration)
+    }
   },
   // 没有更多数据
   noMoreRfresh (noMore = true, isStop = true) {
